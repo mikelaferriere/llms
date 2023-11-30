@@ -1,0 +1,10 @@
+# repos
+tabby
+text-generation-webui
+
+# artifacts
+.tabby
+projects
+
+# emacs
+*~

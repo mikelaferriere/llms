@@ -1,0 +1,101 @@
+---
+# NOTE: This is my GPU setup with my indexes. Make sure they match up to yours
+# index 0: 3070 (9652988c-23cb-3d44-92f1-fe4b3189f334)
+# index 1: 3060 ti (c5bc98c1-e7c9-a438-3cc5-56362e4eab24)
+# index 2: 3060 (8b6de0bb-89ad-1f78-1c8b-34f0e740e1ca)
+# index 3: 3060 (93546bb2-97df-8ac3-2941-6e8be8aef53c)
+# index 4: 2060 (988d240c-f178-4b8f-eb54-d831f3d0f1a5)
+
+version: '3.8'
+services:
+  tabby:
+    container_name: tabby
+    restart: always
+    user: 1000:1000
+    build:
+      context: ./tabby
+      dockerfile: ./Dockerfile
+      args:
+        CUDA_VERSION: 12.3.0
+        RUST_TOOLCHAIN: 1.73
+    command: serve --model TabbyML/DeepseekCoder-6.7B --device cuda
+    volumes:
+      - "./.tabby:/data"
+      - "./projects:/projects"
+    environment:
+      TABBY_DISABLE_USAGE_COLLECTION: 1
+      RUST_BACKTRACE: full
+      LLAMA_CPP_PARALLELISM: 1
+    ports:
+      - 8080:8080
+    deploy:
+      resources:
+        reservations:
+           devices:
+              - driver: nvidia
+                device_ids: ['1']
+                capabilities: [gpu]
+
+  text-generation-webui:
+    container_name: text-generation-webui
+    build:
+      context: ./text-generation-webui
+      dockerfile: ./docker/nvidia/Dockerfile
+      args:
+        # specify which cuda version your card supports: https://developer.nvidia.com/cuda-gpus
+        TORCH_CUDA_ARCH_LIST: ${TORCH_CUDA_ARCH_LIST:-7.5}
+        WEBUI_VERSION: ${WEBUI_VERSION:-HEAD}
+    env_file: .env
+    environment:
+      # You will first need to run this "bare" CLI_ARGs so you can download the models via the UI.
+      # Once you do that, you can specify the model directly and it will load up on start.
+      # You can also download the models outside of this container in the proper location (see volumes)
+
+      CLI_ARGS: "--api --listen"
+      # CLI_ARGS: "--api --listen --model models/TheBloke_OpenHermes-2.5-Mistral-7B-16k-GPTQ"
+    ports:
+      - "${HOST_PORT:-7860}:${CONTAINER_PORT:-7860}"
+      - "${HOST_API_PORT:-5000}:${CONTAINER_API_PORT:-5000}"
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./text-generation-webui/characters:/app/characters
+      - ./text-generation-webui/extensions:/app/extensions
+      - ./text-generation-webui/loras:/app/loras
+      - ./text-generation-webui/models:/app/models
+      - ./text-generation-webui/presets:/app/presets
+      - ./text-generation-webui/prompts:/app/prompts
+      - ./text-generation-webui/softprompts:/app/softprompts
+      - ./text-generation-webui/training:/app/training
+      - ./text-generation-webui/cloudflared:/etc/cloudflared
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['2']
+              capabilities: [gpu]
+
+  nvidia-prometheus:
+    container_name: nvidia-prometheus
+    restart: always
+    user: 1000:1000
+    image: utkuozdemir/nvidia_gpu_exporter:1.1.0
+    volumes:
+      - "/usr/lib/x86_64-linux-gnu/:/usr/lib/x86_64-linux-gnu/:ro"
+      - "/usr/bin/nvidia-smi:/usr/bin/nvidia-smi"
+    devices:
+      - "/dev/nvidiactl:/dev/nvidiactl"
+      - "/dev/nvidia0:/dev/nvidia0"
+      - "/dev/nvidia1:/dev/nvidia1"
+      - "/dev/nvidia2:/dev/nvidia2"
+      - "/dev/nvidia3:/dev/nvidia3"
+      - "/dev/nvidia4:/dev/nvidia4"
+    ports:
+      - 9835:9835
+    deploy:
+      resources:
+        reservations:
+           devices:
+              - driver: nvidia
+                capabilities: [gpu]
