@@ -77,7 +77,7 @@ services:
       CONTAINER_STREAMING_PORT: 5005
 
       # Comma separated extensions to build
-      BUILD_EXTENSIONS: "api,openai"
+      BUILD_EXTENSIONS: "api,gallery,openai"
 
       # Set APP_RUNTIME_GID to an appropriate host system group to enable access to mounted volumes 
       # You can find your current host user group id with the command `id -g`
