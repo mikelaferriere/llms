@@ -12,6 +12,9 @@ services:
     container_name: tabby
     restart: always
     user: 1000:1000
+    # This is to disable watchtower if it is being run on the current system
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
     build:
       context: ./tabby
       dockerfile: ./Dockerfile
@@ -39,6 +42,9 @@ services:
   text-generation-webui:
     container_name: text-generation-webui
     user: 1000:1000
+    # This is to disable watchtower if it is being run on the current system
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
     build:
       context: ./text-generation-webui
       dockerfile: ./docker/nvidia/Dockerfile
@@ -121,7 +127,7 @@ services:
     container_name: nvidia-prometheus
     restart: always
     user: 1000:1000
-    image: utkuozdemir/nvidia_gpu_exporter:1.1.0
+    image: utkuozdemir/nvidia_gpu_exporter:1.2.0
     volumes:
       - "/usr/lib/x86_64-linux-gnu/:/usr/lib/x86_64-linux-gnu/:ro"
       - "/usr/bin/nvidia-smi:/usr/bin/nvidia-smi"
