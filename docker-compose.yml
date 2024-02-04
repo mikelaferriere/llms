@@ -97,11 +97,12 @@ services:
       # Once you do that, you can specify the model directly and it will load up on start.
       # You can also download the models outside of this container in the proper location (see volumes)
 
-      CLI_ARGS: "--api --listen"
-      # CLI_ARGS: "--api --listen --model models/TheBloke_OpenHermes-2.5-Mistral-7B-16k-GPTQ"
+      # NOTE: CLI_ARGS are no longer respected. Update the text-generation-webui/CMD_FLAGS.txt with the
+      #       clie args
+
+      # CLI_ARGS: "--api --listen
 
       # Set cache env
-      TRANSFORMERS_CACHE: /home/app/text-generation-webui/cache/
       HF_HOME: /home/app/text-generation-webui/cache/
 
     ports:
