@@ -10,7 +10,7 @@ version: '3.8'
 services:
   tabby:
     container_name: tabby
-    restart: always
+    restart: unless-stopped
     user: 1000:1000
     # This is to disable watchtower if it is being run on the current system
     labels:
@@ -41,6 +41,7 @@ services:
 
   text-generation-webui:
     container_name: text-generation-webui
+    restart: unless-stopped
     user: 1000:1000
     # This is to disable watchtower if it is being run on the current system
     labels:
@@ -133,7 +134,7 @@ services:
 
   nvidia-prometheus:
     container_name: nvidia-prometheus
-    restart: always
+    restart: unless-stopped
     user: 1000:1000
     image: utkuozdemir/nvidia_gpu_exporter:1.2.0
     volumes:
