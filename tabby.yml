@@ -1,0 +1,39 @@
+
+version: '3.8'
+services:
+
+
+  # https://github.com/TabbyML/tabby
+  tabby:
+    container_name: tabby
+    restart: unless-stopped
+#    user: 1000:1000
+    # This is to disable watchtower if it is being run on the current system
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
+#    image: tabbyml/tabby:20240310
+    build:
+      context: ./tabby
+      dockerfile: ./docker/Dockerfile.cuda
+      args:
+        CUDA_VERSION: 12.4.0
+#        RUST_TOOLCHAIN: 1.73
+#    command: download --model StarCoder2-7B
+    command: serve --model StarCoder2-7B --device cuda
+#    command: serve --model DeepseekCoder-6.7B --device cuda
+    volumes:
+      - "./.tabby:/data"
+      - "./projects:/projects"
+    environment:
+      TABBY_DISABLE_USAGE_COLLECTION: 1
+      RUST_BACKTRACE: full
+      LLAMA_CPP_PARALLELISM: 1
+    ports:
+      - 8080:8080
+    deploy:
+      resources:
+        reservations:
+           devices:
+              - driver: nvidia
+                device_ids: ['1']
+                capabilities: [gpu]

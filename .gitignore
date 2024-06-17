@@ -1,10 +1,14 @@
 # repos
 tabby
 text-generation-webui
+stable-diffusion
+
 
 # artifacts
 .tabby
 projects
+.ollama
+.open-webui
 
 # emacs
 *~

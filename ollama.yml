@@ -1,0 +1,24 @@
+
+version: '3.8'
+services:
+
+
+  # https://hub.docker.com/r/ollama/ollama
+  ollama:
+    container_name: ollama
+    restart: unless-stopped
+#    user: 1000:1000
+    image: ollama/ollama
+    volumes:
+      - "./.ollama:/root/.ollama"
+    expose:
+      - 11434
+#    ports:
+#      - 11434:11434
+    deploy:
+      resources:
+        reservations:
+           devices:
+              - driver: nvidia
+                device_ids: ['0', '2', '3', '4']
+                capabilities: [gpu]
