@@ -11,7 +11,7 @@ services:
     # This is to disable watchtower if it is being run on the current system
     labels:
       - "com.centurylinklabs.watchtower.enable=false"
-#    image: tabbyml/tabby:20240310
+#   image: tabbyml/tabby:20240615
     build:
       context: ./tabby
       dockerfile: ./docker/Dockerfile.cuda

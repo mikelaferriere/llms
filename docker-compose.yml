@@ -9,7 +9,7 @@
 version: '3.8'
 
 include:
-  - tabby.yml
+#  - tabby.yml
   - ollama.yml
   - open-webui.yml
 #  - text-generation-webui.yml
