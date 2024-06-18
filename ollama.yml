@@ -10,7 +10,7 @@ services:
 #    user: 1000:1000
     image: ollama/ollama
     volumes:
-      - "./.ollama:/root/.ollama"
+      - "./.ollama-code:/root/.ollama"
     ports:
       - 11435:11434
     deploy:
@@ -18,7 +18,7 @@ services:
         reservations:
            devices:
               - driver: nvidia
-                device_ids: ['0']
+                device_ids: ['1']
                 capabilities: [gpu]
 
   ollama:
@@ -37,5 +37,5 @@ services:
         reservations:
            devices:
               - driver: nvidia
-                device_ids: ['1', '2', '3', '4']
+                device_ids: ['0', '2', '3', '4']
                 capabilities: [gpu]

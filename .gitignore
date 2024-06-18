@@ -7,7 +7,7 @@ stable-diffusion
 # artifacts
 .tabby
 projects
-.ollama
+.ollama*
 .open-webui
 
 # emacs
