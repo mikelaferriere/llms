@@ -10,7 +10,12 @@ services:
 #    user: 1000:1000
     image: ghcr.io/open-webui/open-webui:main
     environment:
+      ENABLE_SIGNUP: true
       OLLAMA_BASE_URL: http://ollama:11434
+      AUTOMATIC1111_BASE_URL: http://stable-diffusion-webui:7860/
+      ENABLE_IMAGE_GENERATION: true
+      IMAGE_GENERATION_MODEL: v1-5-pruned-emaonly
+      IMAGE_SIZE: 640x800
     volumes:
       - "./.open-webui:/app/backend/data"
     ports:

@@ -9,8 +9,7 @@
 version: '3.8'
 
 include:
-#  - tabby.yml
   - ollama.yml
   - open-webui.yml
-#  - text-generation-webui.yml
+  - stable-diffusion/stable-diffusion.yml
   - prometheus-nvidia.yml

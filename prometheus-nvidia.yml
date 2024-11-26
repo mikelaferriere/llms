@@ -22,6 +22,7 @@ services:
       - "/dev/nvidia2:/dev/nvidia2"
       - "/dev/nvidia3:/dev/nvidia3"
       - "/dev/nvidia4:/dev/nvidia4"
+#      - "/dev/nvidia5:/dev/nvidia5"
     ports:
 #      - 9835:9835
       - 9400:9400
