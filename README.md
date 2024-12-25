@@ -1,34 +1,34 @@
 # LLMS
 
-## Tabby
-Self hosted LLM Coding Assistant
+## How to find device ids for NVIDIA gpus
 
-- https://github.com/TabbyML/tabby
-- https://tabby.tabbyml.com/
+GPUS (found by running nvidia-smi on server)
+These may change after reboot so make sure to check each time
 
-## Text-generation-webui
-Web UI for self-hosted LLMS
-
-https://github.com/oobabooga/text-generation-webui
-
-
-### Initialize
-You will need to install docker and docker-compose.
-Also, this has only been tested using CUDA graphics cards
-
-```bash
-$ ./start.sh
-```
-
-### Run
-```bash
-$ docker compose up
-```
-
-This will take quite a while
-
-### How to use
-You can access the webui via http://0.0.0.0:7860
-You can access the webui's api via http://0.0.0.0:5000
-
-You can access the tabby coding api via http://0.0.0.0:8080
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 560.35.03              Driver Version: 560.35.03      CUDA Version: 12.6     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 2060        Off |   00000000:01:00.0 Off |                  N/A |
+|  0%   48C    P8             21W /  183W |       1MiB /   6144MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA GeForce RTX 3060        Off |   00000000:02:00.0 Off |                  N/A |
+|  0%   58C    P8             19W /  170W |       2MiB /  12288MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   2  NVIDIA GeForce RTX 3060        Off |   00000000:03:00.0 Off |                  N/A |
+|  0%   61C    P8             20W /  170W |       2MiB /  12288MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   3  NVIDIA GeForce RTX 3060 Ti     Off |   00000000:06:00.0 Off |                  N/A |
+|  0%   38C    P8              9W /  200W |       2MiB /   8192MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   4  NVIDIA GeForce RTX 3070        Off |   00000000:08:00.0 Off |                  N/A |
+|  0%   31C    P8              5W /  220W |       2MiB /   8192MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+

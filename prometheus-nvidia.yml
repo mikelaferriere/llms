@@ -3,16 +3,14 @@ version: '3.8'
 services:
 
   # https://hub.docker.com/r/utkuozdemir/nvidia_gpu_exporter
-  nvidia-prometheus:
-    container_name: nvidia-prometheus
+  # https://github.com/utkuozdemir/nvidia_gpu_exporter/tree/master
+  nvidia-gpu-exporter:
+    container_name: nvidia-gpu-exporter
     restart: unless-stopped
-#    user: 1000:1000
-#    image: utkuozdemir/nvidia_gpu_exporter:1.2.0
-    # https://github.com/NVIDIA/dcgm-exporter
-    image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.5-3.4.1-ubuntu22.04
-#    volumes:
-#      - "/usr/lib/x86_64-linux-gnu/:/usr/lib/x86_64-linux-gnu/:ro"
-#      - "/usr/bin/nvidia-smi:/usr/bin/nvidia-smi"
+    image: utkuozdemir/nvidia_gpu_exporter:1.2.1
+    volumes:
+     - "/usr/lib/x86_64-linux-gnu/:/usr/lib/x86_64-linux-gnu/:ro"
+     - "/usr/bin/nvidia-smi:/usr/bin/nvidia-smi"
     cap_add:
       - SYS_ADMIN
     devices:
@@ -22,9 +20,30 @@ services:
       - "/dev/nvidia2:/dev/nvidia2"
       - "/dev/nvidia3:/dev/nvidia3"
       - "/dev/nvidia4:/dev/nvidia4"
-#      - "/dev/nvidia5:/dev/nvidia5"
     ports:
-#      - 9835:9835
+     - 9835:9835
+    deploy:
+      resources:
+        reservations:
+           devices:
+              - driver: nvidia
+                capabilities: [gpu]
+  
+  # https://github.com/NVIDIA/dcgm-exporter
+  nvidia-prometheus:
+    container_name: nvidia-prometheus
+    restart: unless-stopped
+    image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.5-3.4.1-ubuntu22.04
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - "/dev/nvidiactl:/dev/nvidiactl"
+      - "/dev/nvidia0:/dev/nvidia0"
+      - "/dev/nvidia1:/dev/nvidia1"
+      - "/dev/nvidia2:/dev/nvidia2"
+      - "/dev/nvidia3:/dev/nvidia3"
+      - "/dev/nvidia4:/dev/nvidia4"
+    ports:
       - 9400:9400
     deploy:
       resources:
