@@ -5,6 +5,11 @@
 GPUS (found by running nvidia-smi on server)
 These may change after reboot so make sure to check each time
 
+```bash
+$ nvidia-smi
+```
+
+```
 +-----------------------------------------------------------------------------------------+
 | NVIDIA-SMI 560.35.03              Driver Version: 560.35.03      CUDA Version: 12.6     |
 |-----------------------------------------+------------------------+----------------------+
@@ -32,3 +37,4 @@ These may change after reboot so make sure to check each time
 |  0%   31C    P8              5W /  220W |       2MiB /   8192MiB |      0%      Default |
 |                                         |                        |                  N/A |
 +-----------------------------------------+------------------------+----------------------+
+```
